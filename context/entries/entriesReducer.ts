@@ -10,9 +10,9 @@ export const entriesReducer = (
   action: EntriesActionType
 ): EntriesState => {
   switch (action.type) {
-    case 'CreateEntrie':
-    case 'DeleteEntrie':
-    case 'UpdateEntrie':
+    // case 'CreateEntrie':
+    // case 'DeleteEntrie':
+    // case 'UpdateEntrie':
     default:
       return state;
   }
