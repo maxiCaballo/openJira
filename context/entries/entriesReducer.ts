@@ -1,18 +1,23 @@
+import { Entry } from '../../interfaces';
 import { EntriesState } from './';
 
 type EntriesActionType =
-  | { type: 'CreateEntrie' }
-  | { type: 'DeleteEntrie' }
-  | { type: 'UpdateEntrie' };
+  | { type: 'CreateEntry'; payload: Entry }
+  | { type: 'DeleteEntry' }
+  | { type: 'UpdateEntry' };
 
 export const entriesReducer = (
   state: EntriesState,
   action: EntriesActionType
 ): EntriesState => {
   switch (action.type) {
-    // case 'CreateEntrie':
-    // case 'DeleteEntrie':
-    // case 'UpdateEntrie':
+    case 'CreateEntry':
+      return {
+        ...state,
+        entries: [...state.entries, action.payload],
+      };
+    // case 'DeleteEntry':
+    // case 'UpdateEntry':
     default:
       return state;
   }

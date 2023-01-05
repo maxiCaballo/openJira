@@ -26,7 +26,7 @@ export const EntryCard: FC<Props> = ({ entry }) => {
           </Typography>
         </CardContent>
         <CardActions sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Typography variant="body2">{entry.createAt}</Typography>
+          <Typography variant="body2">Since 30 minutes</Typography>
         </CardActions>
       </CardActionArea>
     </Card>
