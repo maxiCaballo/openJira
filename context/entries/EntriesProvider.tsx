@@ -1,11 +1,7 @@
 import { FC, ReactElement, useReducer, useEffect } from 'react';
 import { Entry } from '../../interfaces';
 import { EntriesContext, entriesReducer } from './';
-import {
-  entriesApi_getAll,
-  entriesApi_create,
-  entriesApi_update,
-} from '../../apis/entriesApi';
+import entriesApi from '../../apis/entriesApi';
 
 type Props = {
   children: ReactElement;
@@ -27,23 +23,42 @@ export const EntriesProvider: FC<Props> = ({ children }) => {
 
   //*Methods:
 
+  //Update entries in the browser
+  const refreshEntries = async () => {
+    try {
+      const { data } = await entriesApi.get('/entries');
+      dispatch({ type: 'RefreshEntries', payload: data });
+    } catch (error: any) {
+      console.log(error.response.data.message);
+      return error;
+    }
+  };
+
   //Add new entry
   const createEntry = async (description: string) => {
-    const { data } = await entriesApi_create(description);
-    dispatch({ type: 'CreateEntry', payload: data });
+    try {
+      const { data } = await entriesApi.post('/entries', {
+        description,
+      });
+      dispatch({ type: 'CreateEntry', payload: data });
+    } catch (error: any) {
+      console.log(error.response.data.message);
+      return error;
+    }
   };
 
   //Update entry
   const updateEntry = async (entry: Entry) => {
-    const { data } = await entriesApi_update(entry);
-
-    dispatch({ type: 'UpdateEntry', payload: data });
-  };
-
-  //Update entries in the browser
-  const refreshEntries = async () => {
-    const { data } = await entriesApi_getAll();
-    dispatch({ type: 'RefreshEntries', payload: data });
+    try {
+      const { data } = await entriesApi.put(`/entries/${entry._id}`, {
+        description: entry.description,
+        status: entry.status,
+      });
+      dispatch({ type: 'UpdateEntry', payload: data });
+    } catch (error: any) {
+      console.log(error.response.data.message);
+      return error;
+    }
   };
 
   return (
@@ -59,3 +74,11 @@ export const EntriesProvider: FC<Props> = ({ children }) => {
     </EntriesContext.Provider>
   );
 };
+/*
+      const { data } = await entriesApi.put<Entry>(`/entries/${entry._id}`, {
+        description: entry.description,
+        status: entry.status,
+      });
+
+      dispatch({ type: 'UpdateEntry', payload: data });
+*/
