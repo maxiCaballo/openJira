@@ -16,6 +16,8 @@ export default async function Handler(
   }
 
   switch (req.method) {
+    case 'GET':
+      return getEntry(req, res);
     case 'PUT':
       return updateEntry(req, res);
     default:
@@ -23,6 +25,30 @@ export default async function Handler(
   }
 }
 
+//GET
+const getEntry = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { id } = req.query;
+  try {
+    db.connect();
+    const entry = await Entry.findById(id);
+    db.disconnect();
+
+    //Si no existe
+    if (!entry)
+      return res
+        .status(400)
+        .json({ message: 'There is no entry with ID: ' + id });
+
+    return res.status(200).json(entry);
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(400)
+      .json({ message: 'There was an error with the request' });
+  }
+};
+
+//UPDATE
 const updateEntry = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   const { id } = req.query;
 

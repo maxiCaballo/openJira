@@ -26,7 +26,7 @@ export const EntriesProvider: FC<Props> = ({ children }) => {
   //Update entries in the browser
   const refreshEntries = async () => {
     try {
-      const { data } = await entriesApi.get('/entries');
+      const { data } = await entriesApi.get<Entry[]>('/entries');
       dispatch({ type: 'RefreshEntries', payload: data });
     } catch (error: any) {
       console.log(error.response.data.message);
@@ -37,7 +37,7 @@ export const EntriesProvider: FC<Props> = ({ children }) => {
   //Add new entry
   const createEntry = async (description: string) => {
     try {
-      const { data } = await entriesApi.post('/entries', {
+      const { data } = await entriesApi.post<Entry>('/entries', {
         description,
       });
       dispatch({ type: 'CreateEntry', payload: data });
@@ -50,7 +50,7 @@ export const EntriesProvider: FC<Props> = ({ children }) => {
   //Update entry
   const updateEntry = async (entry: Entry) => {
     try {
-      const { data } = await entriesApi.put(`/entries/${entry._id}`, {
+      const { data } = await entriesApi.put<Entry>(`/entries/${entry._id}`, {
         description: entry.description,
         status: entry.status,
       });
