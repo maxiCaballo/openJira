@@ -26,6 +26,8 @@ import { EntriesContext } from '../../context/entries/EntriesContext';
 import { Layout } from '../../components/layouts';
 import { Entry, EntryStatus } from '../../interfaces';
 
+import { dateFunctions } from '../../utils';
+
 //interface
 interface Props {
   entry: Entry;
@@ -58,11 +60,14 @@ const EntryPage: FC<Props> = ({ entry }) => {
   const onSave = () => {
     if (inputValue.trim().length === 0) return;
 
-    updateEntry({
-      ...entry,
-      description: inputValue,
-      status,
-    });
+    updateEntry(
+      {
+        ...entry,
+        description: inputValue,
+        status,
+      },
+      true
+    );
   };
 
   return (
@@ -71,7 +76,12 @@ const EntryPage: FC<Props> = ({ entry }) => {
         <Grid container justifyContent="center" sx={{ marginTop: 2 }}>
           <Grid item xs={12} sm={8} md={6}>
             <Card>
-              <CardHeader title="Entry" subheader={`recently created`} />
+              <CardHeader
+                title="Entry"
+                subheader={`${dateFunctions.getFormatDistanceToNow(
+                  entry.createdAt
+                )}`}
+              />
               <CardContent>
                 <TextField
                   sx={{ marginTop: 2, marginBottom: 1 }}
