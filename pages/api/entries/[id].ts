@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { db } from '../../../database';
 import { IEntry, Entry } from '../../../models';
@@ -9,17 +8,13 @@ export default async function Handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const { id } = req.query;
-
-  if (!mongoose.isValidObjectId(id)) {
-    return res.status(400).json({ message: `ERROR id: ${id} is not valid` });
-  }
-
   switch (req.method) {
     case 'GET':
       return getEntry(req, res);
     case 'PUT':
       return updateEntry(req, res);
+    case 'DELETE':
+      return deleteEntry(req, res);
     default:
       res.status(400).json({ message: 'Http method error' });
   }
@@ -48,7 +43,6 @@ const getEntry = async (req: NextApiRequest, res: NextApiResponse) => {
       .json({ message: 'There was an error with the request' });
   }
 };
-
 //UPDATE
 const updateEntry = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   const { id } = req.query;
@@ -95,4 +89,17 @@ const updateEntry = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       .status(400)
       .json({ message: 'There was an error updating the entry ' });
   }
+};
+//DELETE
+const deleteEntry = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { id } = req.query;
+  console.log('desde delete: ', id);
+
+  db.connect();
+  const entry = await Entry.findByIdAndRemove(id); //Si no encuentra el documento devuelve null
+  db.disconnect();
+
+  if (!entry) return res.status(400).json({ message: 'There was an error' });
+
+  return res.status(200).json({ message: 'Entry deleted succesfully', entry });
 };
