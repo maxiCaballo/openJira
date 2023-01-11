@@ -44,9 +44,7 @@ const EntryPage: FC<Props> = ({ entry }) => {
   const [touched, setTouched] = useState(false);
 
   //Context
-  const { updateEntry } = useContext(EntriesContext);
-
-  console.log(entry);
+  const { updateEntry, deleteEntry } = useContext(EntriesContext);
 
   const onInputValueChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -57,6 +55,7 @@ const EntryPage: FC<Props> = ({ entry }) => {
     setStatus(selectedValue as EntryStatus);
   };
 
+  //*Start-Methods to update the state
   const onSave = () => {
     if (inputValue.trim().length === 0) return;
 
@@ -69,6 +68,10 @@ const EntryPage: FC<Props> = ({ entry }) => {
       true
     );
   };
+  const onDelete = () => {
+    deleteEntry(entry);
+  };
+  //*End-Methods to update the state
 
   return (
     <Layout title="Entry Page">
@@ -134,6 +137,7 @@ const EntryPage: FC<Props> = ({ entry }) => {
             right: 30,
             backgroundColor: 'error.dark',
           }}
+          onClick={onDelete}
         >
           <DeleteOutlineOutlinedIcon />
         </IconButton>
