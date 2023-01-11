@@ -1,9 +1,13 @@
 import { useContext } from 'react';
+import { useRouter } from 'next/router';
+
 import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
+
 import { UIContext } from '../../context/ui';
 
 export const Navbar = () => {
+  const router = useRouter();
   const { openSidebarMenu } = useContext(UIContext);
   return (
     <AppBar position="sticky">
@@ -12,7 +16,9 @@ export const Navbar = () => {
           <MenuOutlinedIcon />
         </IconButton>
         <Typography variant="h6" sx={{ marginLeft: '5px' }}>
-          OpenJira
+          <span onClick={() => router.push('/')} style={{ cursor: 'pointer' }}>
+            OpenJira
+          </span>
         </Typography>
       </Toolbar>
     </AppBar>

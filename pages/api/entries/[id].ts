@@ -28,6 +28,7 @@ export default async function Handler(
 //GET
 const getEntry = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
+
   try {
     db.connect();
     const entry = await Entry.findById(id);

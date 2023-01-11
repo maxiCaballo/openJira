@@ -1,11 +1,11 @@
 import { NextPage } from 'next';
 import { Grid, Card, CardHeader, CardContent } from '@mui/material';
-import { Layouts } from '../components/layouts';
+import { Layout } from '../components/layouts';
 import { EntryList, NewEntry } from '../components/ui';
 
 const HomePage: NextPage = () => {
   return (
-    <Layouts title="Home openjira">
+    <Layout title="Home openjira">
       <Grid container spacing={2}>
         <Grid item xs={12} sm={4}>
           <Card sx={{ height: 'calc(100vh - 100px)' }}>
@@ -38,7 +38,7 @@ const HomePage: NextPage = () => {
           </Card>
         </Grid>
       </Grid>
-    </Layouts>
+    </Layout>
   );
 };
 export default HomePage;

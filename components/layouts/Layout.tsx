@@ -9,7 +9,7 @@ type Props = {
   children: ReactElement;
 };
 
-export const Layouts: FC<Props> = ({ title = 'Openjira App', children }) => {
+export const Layout: FC<Props> = ({ title = 'Openjira App', children }) => {
   //sx es una prop parecida al style={{}} lo unico que me permite acceder al theme de @mui.
   return (
     <Box sx={{ flexFlow: 1 }}>
